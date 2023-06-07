@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div id="container">
+        <div class="users_area">
+            <div class="users_data">
+                <div>
+                    <label for="user_name">Name</label>
+                    <input type="text" id="user_name">
+                </div>
+    
+                <div>
+                    <label for="surname">Surname</label>
+                    <input type="text" id="surname">
+                </div>
+    
+                <div>
+                    <label for="user_age">Age</label>
+                    <input type="number" id="user_age">
+                </div>
+                <div>
+                    <label for="user_mail">Email</label>
+                    <input type="email" id="user_mail">
+                </div>
+                <div class="error_box">
+                    <p class="glob_error"></p>
+                    <button class="create_user" onclick="creatingUsers(event)">Create User</button>
+                </div>
+            </div>
+        </div>
+        <div class="search_area">
+            <div class="second_cont">
+                <div class="search_inputs">
+                    <input class="search_name" type="text" placeholder="Name" oninput="searchUsers(event)">
+                    <input class="search_surname" type="text" placeholder="Surname" oninput="searchUsers(event)">
+                    <input class="search_age" type="number" placeholder="Age" oninput="searchUsers(event)">
+                    <input class="search_email" type="text" placeholder="Email" oninput="searchUsers(event)">
+                </div>
+                <div class="users_table">
+                    <div class="new_list_title">
+                        <div id="users_number">N</div>
+                        <div>Name</div>
+                        <div>Surname</div>
+                        <div>Age</div>
+                        <div>Email</div>
+                    </div>
+                    <div class="new_users"></div>
+                </div>
+                <div class="create_edite">
+
+                    <div class="edite_users">
+                        <div>
+                            <div>
+                                <label for="rename_user_name">Name</label>
+                            </div>
+                            <input type="text" id="rename_user_name">
+                        </div>
+                        <div>
+                            <div>
+                                <label for="rename_user_surname">Surname</label>
+                            </div>
+                            <input type="text" id="rename_user_surname">
+                        </div>
+                        <div>
+                            <div>
+                                <label for="rename_user_age">Age</label>
+                            </div>
+                            <input type="text" id="rename_user_age">
+                        </div>
+                        <div class="last_div">
+                            <div>
+                                <label for="rename_user_mail">Email</label>
+                            </div>
+                            <input type="text" id="rename_user_mail">
+                            <p class="email_error"></p>
+                        </div>
+                        <div class="edite_buttons">
+                            <button onclick='saveEdite(event)'>Save</button>
+                            <button onclick='cancelEdite()'>Cancel</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/script.js"></script>
+</body>
+</html>

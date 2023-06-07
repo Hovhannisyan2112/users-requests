@@ -1,0 +1,233 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+#container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.users_area {
+    background-image: linear-gradient(45deg, yellowgreen, lightgreen);
+    padding: 0 100px 0 50px;
+}
+
+.search_area {
+    background-color: lightseagreen;
+    width: 100%;
+}
+
+.users_data {
+    width: 350px;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 10px 10px 10px gray;
+    background-color: rgba(154, 205, 50, 0.2);
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+}
+
+.users_data input {
+    width: 310px;
+    padding: 5px;
+    border: 2px solid black;
+}
+
+.users_data input::placeholder {
+    color: red;
+}
+
+.users_data label {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.users_data div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.error_box {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.glob_error_show {
+    color: red;
+    font-size: 20px;
+    text-align: center;
+    opacity: 0;
+    animation: globError 0.3s linear both;
+}
+
+@keyframes globError {
+    to {
+        opacity: 1;
+    }
+}
+
+.create_user {
+    padding: 5px 15px;
+    font-weight: bolder;
+    background-color: black;
+    color: white;
+}
+
+.create_user:hover {
+    background-color: white;
+    color: black;
+}
+
+.second_cont {
+    width: 100%;
+    min-height: 100%;
+    border: 2px solid transparent;
+    border-left-color: black;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.new_list_title {
+    display: flex;
+}
+
+.new_list_title div {
+    border: 2px solid black;
+    padding: 5px;
+    min-width: 150px;
+    text-align: center;
+    font-weight: bold;  
+    overflow: hidden;
+    background-color: aqua;
+}
+
+#users_number {
+    min-width: 40px;
+}
+
+.search_inputs {
+    display: flex;
+    margin-left: 40px;
+}
+
+.search_inputs input {
+    width: 150px;
+    padding: 10px 5px;
+    font-weight: bold;
+}
+
+.delete_user {
+    padding: 0 5px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}
+
+.delete_user:hover {
+    background-color: white;
+    color: black;
+}
+
+#users_num {
+    width: 35px;
+}
+
+.del_user {
+    width: 40px;
+    background-color: black;
+    font-weight: bold;
+    color: white;
+}
+
+.del_user:hover {
+    background-color: white;
+    color: black;
+}
+
+.new_users {
+    position: relative;
+}
+
+.edite_users {
+    width: 600px;
+    height: max-content;
+    background-color: lightgreen;
+    position: absolute;
+    left: 60px;
+    top: 60px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    opacity: 0;
+    animation: editeUsers 0.2s linear both;
+}
+
+@keyframes editeUsers {
+    to {
+        opacity: 1;
+    }
+}
+
+.edite_users input {
+    padding: 5px;
+    width: 300px;
+    margin-top: 5px;
+}
+
+.edite_users p {
+    color: red;
+    margin-top: 3px;
+    height: 20px;
+}
+
+.edite_users input::placeholder {
+    color: red;
+}
+
+.edite_buttons {
+    margin-left: 175px;
+    justify-content: end;
+}
+
+.edite_buttons button {
+    padding: 5px 10px;
+    background-color: black;
+    font-weight: bold;
+    color: white;
+}
+
+.edite_buttons button:hover {
+    background-color: white;
+    color: black;
+}
+
+.create_edite {
+    display: none;
+}
+
+.last_div {
+    margin-bottom: 20px;
+}
