@@ -34,59 +34,11 @@ const searchEmailInput = container.querySelector('.search_email');
 let elemArr = [userName, surname, userAge, userEmail];
 
 let checkInputs;
-let checkEditeInputs = false;
+let checkEditInputs = false;
 let usersArr = [];
-let searchResult = [];
-let users;
 let userId;
 
 let editeIndex;
-
-async function getUsers () {
-    const req = await fetch(`http://localhost:3000/users`, {
-        method: 'GET',
-        headers: {
-            "Content-Type":  "application/json;charset=UTF-8"
-        }
-    });
-
-    return await req.json();
-}
-
-async function createUserRequest () {
-    const req = await fetch(`http://localhost:3000/users`, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json;charset=UTF-8"
-        },
-        body: JSON.stringify(users)
-    });
-
-    return await req.json();
-}
-
-async function deletingUserRequest(id) {
-    const req = await fetch(`http://localhost:3000/users/${id}`, {
-        method: 'DELETE',
-        headers: {
-            "Content-Type": "application/json;charset=UTF-8"
-        }
-    });
-    return await req.json();
-}
-
-async function updateUser (user) {
-    const req = await fetch(`http://localhost:3000/users`, {
-        method: 'PUT',
-        headers: {
-            "Content-Type": "application/json;charset=UTF-8"
-        },
-        body: JSON.stringify(user)
-    });
-
-    return await req.json();
-}
-
 
 
 getUsers().then((data) => {
@@ -121,10 +73,8 @@ function creatingUsers() {
     }
 }
 
-function deleteUser (i) {
-    findUserId(i);
-
-    deletingUserRequest(userId).then(() => {
+function deleteUser (id) {
+    deletingUserRequest(id).then(() => {
         return getUsers();
     }).then((data) => {
         usersArr = data;
@@ -134,23 +84,23 @@ function deleteUser (i) {
     clearErrorAfterDelete();
 }
 
-function editeUser (i) {
-    findUserIndex(i)
-    editeWindow('block', 'none');
-    editeValues(filterUsers()[editeIndex]);
+function editUser (id) {
+    findEditingId(id)
+    editWindow('block', 'none');
+    editValues(findEditingId(id));
 }
 
-function saveEdite () {
-    editeErrorValidation();
+function saveEdit () {
+    editErrorValidation();
 
-    if(checkEditeInputs) {
-        editeWindow('none', 'block');
+    if(checkEditInputs) {
+        editWindow('none', 'block');
         SaveEditingValues();
     }
 }
 
-function cancelEdite () {
-    editeWindow('none', 'block');
+function cancelEdit () {
+    editWindow('none', 'block');
 }
 
 function searchUsers () {
@@ -166,20 +116,12 @@ function clearSearch () {
 }
 
 //// editing users ///////////////////////////////////////////////
-function findUserId(i) {
-    userId = filterUsers()[i].id;
-}
-
-function findUserIndex (i) {
-    editeIndex = i;
-}
-
-function editeWindow (open, close) {
+function editWindow (open, close) {
     editeArea.style.display = open;
     editeCont.style.display = close;
 }
 
-function editeValues (userValue) {
+function editValues (userValue) {
     editeName.value = userValue.name;
     editeSurname.value = userValue.surname;
     editeAge.value = userValue.age;
@@ -187,15 +129,25 @@ function editeValues (userValue) {
 }
 
 function SaveEditingValues () {
-    getUsers().then((data) => {
-        data[editeIndex].name = editeName.value;
-        data[editeIndex].surname = editeSurname.value;
-        data[editeIndex].age = editeAge.value;
-        data[editeIndex].email = editeEmail.value;
+    const user = {
+        name: editeName.value,
+        surname: editeSurname.value,
+        age: editeAge.value,
+        email: editeEmail.value,
+        id: userId
+    };
+    updateUser(user).then(data => {
+        return getUsers()
+    }).then(data => {
         usersArr = data;
-        renderUsers(usersArr)
-        console.log(data)
+        renderUsers(usersArr);
     })
+}
+
+function findEditingId (id) {
+    const user = usersArr.find(user => user.id === id);
+    userId = id;
+    return user;
 }
 
 //// searching users ///////////////////////////////////////////////////
@@ -262,7 +214,7 @@ function globalErrorValidation () {
         }
 }
 
-function editeErrorValidation () {
+function editErrorValidation () {
         if (editeName.value === '' ||
             editeSurname.value === '' ||
             editeAge.value === '' ||
@@ -272,15 +224,15 @@ function editeErrorValidation () {
                 emptyAreasError(editeAge);
                 emptyAreasError(editeEmail);
 
-                checkEditeInputs = false;
+                checkEditInputs = false;
         } else {
             clearError(editeName);
             clearError(editeSurname);
             clearError(editeAge);
             clearError(editeEmail);
 
-            checkEditeInputs = true;
-            emailEditeValidation(usersArr, editeEmail);
+            checkEditInputs = true;
+            emailEditValidation(usersArr, editeEmail);
         }
 }
 
@@ -295,20 +247,18 @@ function emailValidation (email, elem) {
     })
 }
 
-function emailEditeValidation (elem, email) {
+function emailEditValidation (elem, email) {
     elem.filter((e) => {
         if (e.email === email.value) {
-            if (e.id !== filterUsers()[editeIndex].id) {
-                if (e.email !== filterUsers()[editeIndex].email) {
-                    checkEditeInputs = false;
+            if (e.id !== userId) {
+                    checkEditInputs = false;
                     email.style.border = '2px solid red';
-                    emailError.innerText = 'This mail already exists in the list.'
-                }
+                    emailError.innerText = 'This mail already exists in the list.';
             } else {
-                checkEditeInputs = true;
+                checkEditInputs = true;
             }
         }
-        if (checkEditeInputs) {
+        if (checkEditInputs) {
             emailError.innerText = '';
         }
     })
@@ -336,8 +286,8 @@ function renderUsers (usersArr) {
                                             <div>${e.surname}</div>
                                             <div>${e.age}</div>
                                             <div>${e.email}</div>
-                                            <button class='del_user' onclick='deleteUser(${i})'>Del</button>
-                                            <button class='del_user' onclick='editeUser(${i})'>Edite</button>
+                                            <button class='del_user' onclick='deleteUser("${e.id}")'>Del</button>
+                                            <button class='del_user' onclick='editUser("${e.id}")'>Edite</button>
                                         </div>`
     });
 }
